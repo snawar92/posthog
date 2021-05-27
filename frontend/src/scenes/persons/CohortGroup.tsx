@@ -111,7 +111,7 @@ export function CohortGroup({
                                 filterOption={(input, option) =>
                                     option?.children && option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
-                                value={group.action_id}
+                                value={group.action_id || group.event_id}
                             >
                                 <Select.OptGroup key={'Select an event'} label={'Select an event'}>
                                     {eventDefinitions.map((eventDef) => (
