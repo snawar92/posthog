@@ -6,6 +6,7 @@ import { Select, Card, Radio } from 'antd'
 import { actionsModel } from '~/models/actionsModel'
 import { useValues } from 'kea'
 import { PropertyFilter } from '~/types'
+import { eventDefinitionsLogic } from 'scenes/events/eventDefinitionsLogic'
 
 export function CohortGroup({
     onChange,
@@ -21,6 +22,8 @@ export function CohortGroup({
     allowRemove: boolean
 }): JSX.Element {
     const { actionsGrouped } = useValues(actionsModel)
+    const { eventDefinitions } = useValues(eventDefinitionsLogic)
+
     const [selected, setSelected] = useState((group.action_id && 'action') || (group.properties && 'property'))
     return (
         <Card title={false} style={{ margin: 0 }}>
@@ -39,7 +42,7 @@ export function CohortGroup({
                         value={selected}
                     >
                         <Radio.Button value="action" data-attr="cohort-group-action">
-                            action
+                            action or event
                         </Radio.Button>
                         <Radio.Button value="property" data-attr="cohort-group-property">
                             property
@@ -95,18 +98,34 @@ export function CohortGroup({
                                 showSearch
                                 placeholder="Select action..."
                                 style={{ width: '100%' }}
-                                onChange={(value) => onChange({ action_id: value, days: group.days })}
+                                onChange={(value) => {
+                                    const res = value.split('__')
+                                    const entity_type = res[0]
+                                    const entity_id = res[1]
+                                    if (entity_type === 'action') {
+                                        onChange({ action_id: parseInt(entity_id), days: group.days })
+                                    } else if (entity_type === 'event') {
+                                        onChange({ event_id: entity_id, days: group.days })
+                                    }
+                                }}
                                 filterOption={(input, option) =>
                                     option?.children && option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                                 }
                                 value={group.action_id}
                             >
+                                <Select.OptGroup key={'Select an event'} label={'Select an event'}>
+                                    {eventDefinitions.map((eventDef) => (
+                                        <Select.Option key={eventDef.name} value={`event__${eventDef.name}`}>
+                                            {eventDef.name}
+                                        </Select.Option>
+                                    ))}
+                                </Select.OptGroup>
                                 {actionsGrouped.map((typeGroup) => {
                                     if (typeGroup['options'].length > 0) {
                                         return (
                                             <Select.OptGroup key={typeGroup['label']} label={typeGroup['label']}>
                                                 {typeGroup['options'].map((item) => (
-                                                    <Select.Option key={item.value} value={item.value}>
+                                                    <Select.Option key={item.value} value={`action__${item.value}`}>
                                                         {item.label}
                                                     </Select.Option>
                                                 ))}
