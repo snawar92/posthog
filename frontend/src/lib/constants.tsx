@@ -244,3 +244,6 @@ export enum Environments {
     PRODUCTION = 'production',
     TEST = 'test',
 }
+
+export const ENTITY_MATCH_TYPE = 'entities'
+export const PROPERTY_MATCH_TYPE = 'properties'
