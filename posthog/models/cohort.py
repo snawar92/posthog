@@ -39,12 +39,14 @@ class Group(object):
         count: Optional[int] = None,
         start_date: Optional[datetime] = None,
         end_date: Optional[datetime] = None,
+        label: Optional[str] = None,
     ):
         if not properties and not action_id and not event_id:
             raise ValueError("Cohort group needs properties or action_id or event_id")
         self.properties = properties
         self.action_id = action_id
         self.event_id = event_id
+        self.label = label
         self.days = days
         self.count = count
         self.start_date = start_date
