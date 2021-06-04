@@ -12,9 +12,9 @@ import { EventDefinition, PropertyDefinition } from '~/types'
 import { PageHeader } from 'lib/components/PageHeader'
 import { userLogic } from 'scenes/userLogic'
 import './VolumeTable.scss'
-import { ProfilePicture } from '~/layout/navigation/TopNavigation'
 import { featureFlagLogic } from 'lib/logic/featureFlagLogic'
 import { FEATURE_FLAGS } from 'lib/constants'
+import { ProfilePicture } from 'lib/components/ProfilePicture'
 type EventTableType = 'event' | 'property'
 
 type EventOrPropType = EventDefinition & PropertyDefinition
@@ -96,7 +96,7 @@ export function VolumeTable({
                           <>
                               {owner ? (
                                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                                      <ProfilePicture name={owner.first_name} email={owner.email} small={true} />
+                                      <ProfilePicture name={owner.first_name} email={owner.email} size="sm" />
                                       <span style={{ paddingLeft: 8 }}>{owner.first_name}</span>
                                   </div>
                               ) : (
