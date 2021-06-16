@@ -210,7 +210,7 @@ urlpatterns = [
     opt_slash_path("api/user/test_slack_webhook", user.test_slack_webhook),
     opt_slash_path("api/user", user.user),
     opt_slash_path("api/signup", organization.OrganizationSignupViewset.as_view()),
-    opt_slash_path("api/social_signup", organization.OrganizationSocialSignupViewset.as_view()),
+    opt_slash_path("api/social_signup", organization.OrganizationSocialSignupViewset.as_vxiew()),
     path("api/signup/<str:invite_id>/", organization.OrganizationInviteSignupViewset.as_view()),
     re_path(r"^api.+", api_not_found),
     path("authorize_and_redirect/", login_required(authorize_and_redirect)),
